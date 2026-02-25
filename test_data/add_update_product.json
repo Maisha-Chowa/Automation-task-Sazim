@@ -1,1 +1,137 @@
-
+{
+  "ui_validations": [
+    {
+      "name": "add_product_page_elements_visible"
+    }
+  ],
+  "positive_cases": [
+    {
+      "name": "positive_add_product_and_verify_on_my_products",
+      "title": "Automation Product",
+      "description": "Automation add product description",
+      "purchase_price": "500",
+      "rent_price": "50",
+      "category": "Outdoor",
+      "rent_duration_type": "Daily",
+      "use_unique_title": true
+    }
+  ],
+  "negative_cases": [
+    {
+      "name": "negative_blank_all_fields",
+      "title": "",
+      "description": "",
+      "purchase_price": "",
+      "rent_price": "",
+      "category": "",
+      "rent_duration_type": "",
+      "expected_messages": [
+        "Last Name is required",
+        "Description cannot be empty",
+        "Purchase price must be a number",
+        "Rent price must be a number",
+        "Need to select an option"
+      ]
+    },
+    {
+      "name": "negative_blank_description",
+      "title": "Negative product",
+      "description": "",
+      "purchase_price": "500",
+      "rent_price": "50",
+      "category": "Outdoor",
+      "rent_duration_type": "Daily",
+      "expected_message": "Description cannot be empty"
+    },
+    {
+      "name": "negative_invalid_price_fields",
+      "title": "Negative invalid price",
+      "description": "desc",
+      "purchase_price": "abc",
+      "rent_price": "xyz",
+      "category": "Outdoor",
+      "rent_duration_type": "",
+      "expected_messages": [
+        "Purchase price must be a number",
+        "Rent price must be a number",
+        "Need to select an option"
+      ]
+    },
+    {
+      "name": "negative_missing_category",
+      "title": "Negative missing category",
+      "description": "desc",
+      "purchase_price": "500",
+      "rent_price": "50",
+      "category": "",
+      "rent_duration_type": "",
+      "expected_message": "Need to select an option"
+    },
+    {
+      "name": "negative_missing_rent_duration",
+      "title": "Negative missing rent duration",
+      "description": "desc",
+      "purchase_price": "500",
+      "rent_price": "50",
+      "category": "Outdoor",
+      "rent_duration_type": "",
+      "expected_message": "Need to select an option"
+    }
+  ],
+  "update_ui_validations": [
+    {
+      "name": "update_product_page_elements_visible",
+      "search_title_from_add_positive": "Automation Product"
+    }
+  ],
+  "update_positive_cases": [
+    {
+      "name": "positive_update_product_and_verify_on_my_products",
+      "search_title_from_add_positive": "Automation Product",
+      "updated_title": "Automation Product Updated",
+      "updated_description": "Updated description via automation",
+      "updated_purchase_price": "700",
+      "updated_rent_price": "90",
+      "updated_category": "Electronics",
+      "updated_rent_duration_type": "Hourly",
+      "use_unique_title": true
+    }
+  ],
+  "update_negative_cases": [
+    {
+      "name": "negative_update_blank_all_fields",
+      "search_title_from_add_positive": "Automation Product",
+      "title": "",
+      "description": "",
+      "purchase_price": "",
+      "rent_price": "",
+      "expected_messages": [
+        "Last Name is required",
+        "Description cannot be empty",
+        "Purchase price is required",
+        "Rent price is required"
+      ]
+    },
+    {
+      "name": "negative_update_invalid_prices",
+      "search_title_from_add_positive": "Automation Product",
+      "title": "Update invalid prices",
+      "description": "desc",
+      "purchase_price": "",
+      "rent_price": "",
+      "expected_messages": [
+        "Purchase price is required",
+        "Rent price is required"
+      ]
+    },
+    {
+      "name": "negative_update_blank_description",
+      "search_title_from_add_positive": "Automation Product",
+      "title": "Update blank description",
+      "description": "",
+      "purchase_price": "650",
+      "rent_price": "80",
+      "expected_message": "Description cannot be empty"
+    }
+  ]
+}

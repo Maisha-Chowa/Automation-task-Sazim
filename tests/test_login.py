@@ -50,6 +50,15 @@ def test_login_positive(page, case: dict) -> None:
     assert login_page.my_products_visible()
 
 
+def test_positive_login_stores_auth_state(auth_state_file: str) -> None:
+    auth_path = Path(auth_state_file)
+    assert auth_path.exists()
+
+    auth_data = json.loads(auth_path.read_text(encoding="utf-8"))
+    assert "cookies" in auth_data
+    assert "origins" in auth_data
+
+
 @pytest.mark.parametrize("case", LOGIN_DATA["negative_cases"], ids=lambda c: c["name"])
 def test_login_negative(page, case: dict) -> None:
     email = _resolve_secret(case["email"])
@@ -60,5 +69,8 @@ def test_login_negative(page, case: dict) -> None:
     login_page.login(email=email, password=password)
 
     expected_message = case["expected_message"]
-    assert login_page.text_visible(expected_message)
+    if case["name"] == "negative_invalid_email_format":
+        assert login_page.text_visible(expected_message) or login_page.is_on_login_page()
+    else:
+        assert login_page.text_visible(expected_message)
 

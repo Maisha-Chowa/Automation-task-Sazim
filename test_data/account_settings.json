@@ -1,1 +1,90 @@
+{
+  "ui_validations": [
+    {
+      "name": "account_settings_page_elements_visible"
+    }
+  ],
+  "positive_cases": [
+    {
+      "name": "positive_update_account_info",
+      "first_name": "TestUpdated",
+      "last_name": "UserUpdated",
+      "address": "Dhaka Updated",
+      "email": "testuser@teebay.com",
+      "phone_number": "01712345679",
+      "expected_message": "User updated!"
+    }
+  ],
+  "negative_cases": [
+    {
+      "name": "negative_blank_first_name",
+      "first_name": "",
+      "last_name": "User",
+      "address": "Dhaka",
+      "email": "testuser@teebay.com",
+      "phone_number": "01712345678",
+      "expected_message": "First Name is required"
+    },
+    {
+      "name": "negative_blank_last_name",
+      "first_name": "Test",
+      "last_name": "",
+      "address": "Dhaka",
+      "email": "testuser@teebay.com",
+      "phone_number": "01712345678",
+      "expected_message": "Last Name is required"
+    },
+    {
+      "name": "negative_blank_address",
+      "first_name": "Test",
+      "last_name": "User",
+      "address": "",
+      "email": "testuser@teebay.com",
+      "phone_number": "01712345678",
+      "expected_message": "Address is required"
+    },
+    {
+      "name": "negative_blank_email",
+      "first_name": "Test",
+      "last_name": "User",
+      "address": "Dhaka",
+      "email": "",
+      "phone_number": "01712345678",
+      "expected_message": "Email is required"
+    },
+    {
+      "name": "negative_invalid_email_format",
+      "first_name": "Test",
+      "last_name": "User",
+      "address": "Dhaka",
+      "email": "invalid-email",
+      "phone_number": "01712345678",
+      "expected_message": "Please enter a valid email address"
+    },
+    {
+      "name": "negative_blank_phone_number",
+      "first_name": "Test",
+      "last_name": "User",
+      "address": "Dhaka",
+      "email": "testuser@teebay.com",
+      "phone_number": "",
+      "expected_message": "phone_number must be a `number` type"
+    },
+    {
+      "name": "negative_blank_all",
+      "first_name": "",
+      "last_name": "",
+      "address": "",
+      "email": "",
+      "phone_number": "",
+      "expected_messages": [
+        "First Name is required",
+        "Last Name is required",
+        "Address is required",
+        "Email is required",
+        "phone_number must be a `number` type"
+      ]
+    }
+  ]
+}
 

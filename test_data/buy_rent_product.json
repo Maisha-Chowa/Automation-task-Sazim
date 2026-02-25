@@ -1,1 +1,94 @@
+{
+  "product_targets": {
+    "sold_product_title": "Last of Us Part II PS5 game",
+    "rent_product_title": "Funshine bear",
+    "buy_product_title": "Lawn Mower",
+    "own_available_product_title": "Cricket kit",
+    "own_available_category": "Sporting Goods"
+  },
+  "rent_cases": {
+    "positive_cases": [
+      {
+        "name": "rent_valid_date_range_funshine",
+        "start_offset_days": 1,
+        "end_offset_days": 4,
+        "expected_statuses_after": ["rented", "r"],
+        "known_bug": true
+      },
+      {
+        "name": "rent_valid_max_1_week_funshine",
+        "start_offset_days": 1,
+        "end_offset_days": 8,
+        "expected_statuses_after": ["rented", "r"],
+        "known_bug": true
+      }
+    ],
+    "negative_cases": [
+      {
+        "name": "rent_invalid_past_date_funshine",
+        "start_offset_days": -2,
+        "end_offset_days": 1,
+        "expect_book_disabled": true,
+        "known_bug": true
+      },
+      {
+        "name": "rent_invalid_start_equals_end_funshine",
+        "start_offset_days": 2,
+        "end_offset_days": 2,
+        "expect_book_disabled": true,
+        "known_bug": true
+      },
+      {
+        "name": "rent_invalid_end_before_start_funshine",
+        "start_offset_days": 5,
+        "end_offset_days": 3,
+        "expect_book_disabled": true,
+        "known_bug": true
+      },
+      {
+        "name": "rent_invalid_more_than_1_week_funshine",
+        "start_offset_days": 1,
+        "end_offset_days": 12,
+        "expect_book_disabled": true,
+        "known_bug": true
+      },
+      {
+        "name": "rent_invalid_empty_dates_funshine",
+        "start_date": "",
+        "end_date": "",
+        "expect_book_disabled": true,
+        "known_bug": true
+      },
+      {
+        "name": "rent_cancel_keeps_available_funshine",
+        "start_offset_days": 1,
+        "end_offset_days": 3,
+        "cancel_rent": true
+      }
+    ]
+  },
+  "buy_cases": {
+    "positive_cases": [
+      {
+        "name": "buy_yes_changes_status_to_sold_lawn_mower",
+        "expected_statuses_after": ["sold", "s"]
+      }
+    ],
+    "negative_cases": [
+      {
+        "name": "buy_cancel_keeps_available_lawn_mower",
+        "expected_statuses_after": ["available", "a"]
+      }
+    ]
+  },
+  "captured_products_temp": [
+    { "title": "Last of Us Part II PS5 game" },
+    { "title": "Ikea couch" },
+    { "title": "Funshine bear" },
+    { "title": "Blender" },
+    { "title": "Lawn Mower" },
+    { "title": "Cricket kit" },
+    { "title": "iPhone 13 pro max" }
+  ]
+}
 

@@ -59,14 +59,14 @@ def auth_state_file(browser: Browser) -> str:
     return str(auth_state_path)
 
 
-@pytest.fixture(scope="session")
+@pytest.fixture()
 def authenticated_context(browser: Browser, auth_state_file: str) -> BrowserContext:
     context = browser.new_context(storage_state=auth_state_file)
     yield context
     context.close()
 
 
-@pytest.fixture(scope="session")
+@pytest.fixture()
 def authenticated_page(authenticated_context: BrowserContext) -> Page:
     page = authenticated_context.new_page()
 

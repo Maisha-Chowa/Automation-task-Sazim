@@ -1,1 +1,89 @@
+{
+  "ui_validations": [
+    {
+      "name": "browse_page_ui_elements"
+    }
+  ],
+  "title_filter": {
+    "positive_cases": [
+      {
+        "name": "title_contains_ikea",
+        "title": "Ikea",
+        "expected_titles": ["Ikea couch"],
+        "known_bug": true
+      }
+    ],
+    "negative_cases": [
+      {
+        "name": "title_not_found",
+        "title": "no-such-product-xyz",
+        "expected_count": 0,
+        "known_bug": true
+      }
+    ]
+  },
+  "category_filter": {
+    "positive_cases": [
+      {
+        "name": "category_furniture",
+        "category": "Furniture",
+        "expected_titles": ["Ikea couch"]
+      }
+    ],
+    "negative_cases": [
+      {
+        "name": "category_sporting_goods_excludes_other_categories",
+        "category": "Sporting Goods",
+        "unexpected_titles": ["Ikea couch", "Blender", "Funshine bear"]
+      }
+    ]
+  },
+  "buy_filter": {
+    "positive_cases": [
+      {
+        "name": "buy_min_900_max_1100",
+        "min_buy_range": "900",
+        "max_buy_range": "1100",
+        "expected_titles": ["Blender"]
+      }
+    ],
+    "negative_cases": [
+      {
+        "name": "buy_invalid_range_min_greater_than_max",
+        "min_buy_range": "2000",
+        "max_buy_range": "100",
+        "expected_count": 0
+      }
+    ]
+  },
+  "rent_filter": {
+    "positive_cases": [
+      {
+        "name": "rent_daily_min_1_max_15",
+        "min_rent_range": "1",
+        "max_rent_range": "15",
+        "rent_duration_type": "Daily",
+        "expected_titles": ["Last of Us Part II PS5 game", "Funshine bear"]
+      }
+    ],
+    "negative_cases": [
+      {
+        "name": "rent_daily_very_high_range",
+        "min_rent_range": "5000",
+        "max_rent_range": "9000",
+        "rent_duration_type": "Daily",
+        "expected_count": 0
+      }
+    ]
+  },
+  "captured_products_temp": [
+    { "title": "Last of Us Part II PS5 game" },
+    { "title": "Ikea couch" },
+    { "title": "Funshine bear" },
+    { "title": "Blender" },
+    { "title": "Lawn Mower" },
+    { "title": "Cricket kit" },
+    { "title": "iPhone 13 pro max" }
+  ]
+}
 

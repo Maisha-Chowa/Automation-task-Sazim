@@ -1,1 +1,126 @@
-
+{
+  "ui_validations": [
+    {
+      "name": "registration_page_elements_visible"
+    }
+  ],
+  "positive_cases": [
+    {
+      "name": "positive_valid_registration_submission",
+      "first_name": "Test",
+      "last_name": "User",
+      "address": "Dhaka, Bangladesh",
+      "email": "new.user.automation+01@test.com",
+      "phone_number": "01712345678",
+      "password": "Pass@1234",
+      "confirm_password": "Pass@1234"
+    }
+  ],
+  "negative_cases": [
+    {
+      "name": "negative_blank_first_name",
+      "first_name": "",
+      "last_name": "User",
+      "address": "Dhaka",
+      "email": "test.user.blank.firstname@test.com",
+      "phone_number": "01712345678",
+      "password": "Pass@1234",
+      "confirm_password": "Pass@1234",
+      "expected_message": "Internal error occurred. Please check the server!"
+    },
+    {
+      "name": "negative_blank_last_name",
+      "first_name": "Test",
+      "last_name": "",
+      "address": "Dhaka",
+      "email": "test.user.blank.lastname@test.com",
+      "phone_number": "01712345678",
+      "password": "Pass@1234",
+      "confirm_password": "Pass@1234",
+      "expected_message": "Last Name is required"
+    },
+    {
+      "name": "negative_blank_address",
+      "first_name": "Test",
+      "last_name": "User",
+      "address": "",
+      "email": "test.user.blank.address@test.com",
+      "phone_number": "01712345678",
+      "password": "Pass@1234",
+      "confirm_password": "Pass@1234",
+      "expected_message": "Address is required"
+    },
+    {
+      "name": "negative_invalid_email_format",
+      "first_name": "Test",
+      "last_name": "User",
+      "address": "Dhaka",
+      "email": "invalid-email",
+      "phone_number": "01712345678",
+      "password": "Pass@1234",
+      "confirm_password": "Pass@1234",
+      "expected_message": "Please enter a valid email address"
+    },
+    {
+      "name": "negative_blank_email",
+      "first_name": "Test",
+      "last_name": "User",
+      "address": "Dhaka",
+      "email": "",
+      "phone_number": "01712345678",
+      "password": "Pass@1234",
+      "confirm_password": "Pass@1234",
+      "expected_message": "Email is required"
+    },
+    {
+      "name": "negative_blank_phone_number",
+      "first_name": "Test",
+      "last_name": "User",
+      "address": "Dhaka",
+      "email": "test.user.blank.phone@test.com",
+      "phone_number": "",
+      "password": "Pass@1234",
+      "confirm_password": "Pass@1234",
+      "expected_message": "Phone number is required"
+    },
+    {
+      "name": "negative_blank_password",
+      "first_name": "Test",
+      "last_name": "User",
+      "address": "Dhaka",
+      "email": "test.user.blank.password@test.com",
+      "phone_number": "01712345678",
+      "password": "",
+      "confirm_password": "",
+      "expected_message": "Password is required"
+    },
+    {
+      "name": "negative_blank_confirm_password",
+      "first_name": "Test",
+      "last_name": "User",
+      "address": "Dhaka",
+      "email": "test.user.blank.confirm@test.com",
+      "phone_number": "01712345678",
+      "password": "Pass@1234",
+      "confirm_password": "",
+      "expected_message": "Internal error occurred. Please check the server!"
+    },
+    {
+      "name": "negative_blank_all",
+      "first_name": "",
+      "last_name": "",
+      "address": "",
+      "email": "",
+      "phone_number": "",
+      "password": "",
+      "confirm_password": "",
+      "expected_messages": [
+        "Last Name is required",
+        "Address is required",
+        "Email is required",
+        "Phone number is required",
+        "Password is required"
+      ]
+    }
+  ]
+}

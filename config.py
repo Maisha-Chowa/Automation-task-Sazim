@@ -33,9 +33,10 @@ def _get_str_env(name: str, default: str = "") -> str:
 
 class Settings:
     BASE_URL = _get_str_env(
-        "BASE_URL",
-        "https://ehsanur-rahman-sazim.github.io/teebay-buggy/",
-    )
+        "BASE_URL"
+    ).rstrip("/")
+    LOGIN_URL = f"{BASE_URL}/teebay-buggy/"
+    MY_PRODUCTS_URL = f"{BASE_URL}/my-products"
     BROWSER_NAME = _get_str_env("BROWSER", "chromium")
     HEADLESS = _get_bool_env("HEADLESS", True)
     DEFAULT_TIMEOUT_MS = _get_int_env("DEFAULT_TIMEOUT_MS", 15000)

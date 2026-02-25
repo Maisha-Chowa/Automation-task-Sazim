@@ -46,7 +46,7 @@ def test_login_positive(page, case: dict) -> None:
     login_page.open()
     login_page.login(email=email, password=password)
 
-    assert "my-products" in page.url
+    assert page.url == Settings.MY_PRODUCTS_URL
     assert login_page.my_products_visible()
 
 

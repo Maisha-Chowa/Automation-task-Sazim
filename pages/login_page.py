@@ -18,7 +18,7 @@ class LoginPage:
         self.page.set_default_timeout(Settings.DEFAULT_TIMEOUT_MS)
 
     def open(self) -> None:
-        self.page.goto(Settings.BASE_URL, wait_until="domcontentloaded")
+        self.page.goto(Settings.LOGIN_URL, wait_until="domcontentloaded")
 
     def login(self, email: str, password: str) -> None:
         self.page.locator(self.EMAIL_INPUT).fill(email)

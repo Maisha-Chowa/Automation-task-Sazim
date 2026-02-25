@@ -19,9 +19,7 @@ def _get_int_env(name: str, default: int) -> int:
 
 class Settings:
     BASE_URL = os.getenv(
-        "BASE_URL",
-        "https://ehsanur-rahman-sazim.github.io/teebay-buggy/",
-    )
-    BROWSER_NAME = os.getenv("BROWSER", "chromium")
-    HEADLESS = os.getenv("HEADLESS", "true").lower() == "true"
-    DEFAULT_TIMEOUT_MS = _get_int_env("DEFAULT_TIMEOUT_MS", 15000)
+        "BASE_URL")
+    BROWSER_NAME = os.getenv("BROWSER")
+    HEADLESS = os.getenv("HEADLESS")
+    DEFAULT_TIMEOUT_MS = int(os.getenv("DEFAULT_TIMEOUT_MS"))

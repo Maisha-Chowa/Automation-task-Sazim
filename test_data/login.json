@@ -1,1 +1,53 @@
+{
+  "ui_validations": [
+    {
+      "name": "login_page_elements_visible"
+    }
+  ],
+  "positive_cases": [
+    {
+      "name": "valid_user_can_login",
+      "email": "{{USERNAME}}",
+      "password": "{{PASSWORD}}"
+    }
+  ],
+  "negative_cases": [
+    {
+      "name": "negative_wrong_password",
+      "email": "{{USERNAME}}",
+      "password": "wrong-pass-123",
+      "expected_message": "Incorrect username or password. Please try again!"
+    },
+    {
+      "name": "negative_unregistered_email",
+      "email": "unregistered.user@teebay.com",
+      "password": "wrong-pass-123",
+      "expected_message": "Incorrect username or password. Please try again!"
+    },
+    {
+      "name": "negative_invalid_email_format",
+      "email": "invalid-email-format",
+      "password": "123456",
+      "expected_message": "Please enter a valid email address"
+    },
+    {
+      "name": "blank_email",
+      "email": "",
+      "password": "123456",
+      "expected_message": "Password is required"
+    },
+    {
+      "name": "blank_password",
+      "email": "{{USERNAME}}",
+      "password": "",
+      "expected_message": "Password is required"
+    },
+    {
+      "name": "blank_both",
+      "email": "",
+      "password": "",
+      "expected_message": "Password is required"
+    }
+  ]
+}
 

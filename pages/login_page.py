@@ -12,6 +12,10 @@ class LoginPage:
     INVALID_CREDENTIALS_TEXT = "Incorrect username or password. Please try again!"
     INVALID_EMAIL_FORMAT_TEXT = "Please enter a valid email address"
     MY_PRODUCTS_TEXT = "My Products"
+    LOGOUT_NAV_TEXT = "Logout"
+    LOGOUT_MODAL_TEXT = "Are you sure you want to log out?"
+    LOGOUT_CANCEL_BUTTON_TEXT = "Cancel"
+    LOGOUT_CONFIRM_BUTTON_TEXT = "Yes I am sure!"
 
     def __init__(self, page: Page) -> None:
         self.page = page
@@ -54,4 +58,16 @@ class LoginPage:
             return True
         except Exception:
             return False
+
+    def click_logout(self) -> None:
+        self.page.get_by_text(self.LOGOUT_NAV_TEXT).first.click()
+
+    def logout_modal_visible(self) -> bool:
+        return self.text_visible(self.LOGOUT_MODAL_TEXT)
+
+    def cancel_logout(self) -> None:
+        self.page.get_by_role("button", name=self.LOGOUT_CANCEL_BUTTON_TEXT).click()
+
+    def confirm_logout(self) -> None:
+        self.page.get_by_role("button", name=self.LOGOUT_CONFIRM_BUTTON_TEXT).click()
 

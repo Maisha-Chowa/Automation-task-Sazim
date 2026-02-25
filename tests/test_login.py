@@ -23,6 +23,13 @@ def _resolve_secret(value: str) -> str:
 LOGIN_DATA = _load_login_data()
 
 
+def _login_with_valid_user(login_page: LoginPage) -> None:
+    if not Settings.USERNAME or not Settings.PASSWORD:
+        pytest.skip("Valid login credentials are not configured.")
+    login_page.open()
+    login_page.login(email=Settings.USERNAME, password=Settings.PASSWORD)
+
+
 @pytest.mark.parametrize("case", LOGIN_DATA["ui_validations"], ids=lambda c: c["name"])
 def test_login_ui_validation(page, case: dict) -> None:
     login_page = LoginPage(page)
@@ -57,6 +64,36 @@ def test_positive_login_stores_auth_state(auth_state_file: str) -> None:
     auth_data = json.loads(auth_path.read_text(encoding="utf-8"))
     assert "cookies" in auth_data
     assert "origins" in auth_data
+
+
+def test_logout_cancel_keeps_user_logged_in(page) -> None:
+    login_page = LoginPage(page)
+    _login_with_valid_user(login_page)
+
+    assert page.url == Settings.MY_PRODUCTS_URL
+    login_page.click_logout()
+    assert login_page.logout_modal_visible()
+
+    login_page.cancel_logout()
+    page.wait_for_timeout(700)
+
+    assert page.url == Settings.MY_PRODUCTS_URL
+    assert login_page.my_products_visible()
+
+
+def test_logout_confirm_redirects_to_signin(page) -> None:
+    login_page = LoginPage(page)
+    _login_with_valid_user(login_page)
+
+    assert page.url == Settings.MY_PRODUCTS_URL
+    login_page.click_logout()
+    assert login_page.logout_modal_visible()
+
+    login_page.confirm_logout()
+    page.wait_for_timeout(1000)
+
+    assert page.url == f"{Settings.BASE_URL}/signin"
+    assert page.get_by_role("button", name="Sign In").count() > 0
 
 
 @pytest.mark.parametrize("case", LOGIN_DATA["negative_cases"], ids=lambda c: c["name"])

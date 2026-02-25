@@ -5,7 +5,7 @@ from pathlib import Path
 import pytest
 
 from config import Settings
-from pages.add_update_product_page import AddUpdateProductPage
+from pages.my_products_page import AddUpdateProductPage
 
 
 def _load_add_product_data() -> dict:

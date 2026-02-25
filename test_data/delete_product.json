@@ -1,1 +1,37 @@
+{
+  "ui_validations": [
+    {
+      "name": "my_products_page_delete_icon_visible"
+    }
+  ],
+  "positive_cases": [
+    {
+      "name": "positive_delete_created_product",
+      "product_title_prefix": "Delete Target Product",
+      "description": "created for delete flow automation",
+      "purchase_price": "550",
+      "rent_price": "55",
+      "category": "Outdoor",
+      "rent_duration_type": "Daily",
+      "use_unique_title": true
+    }
+  ],
+  "negative_cases": [
+    {
+      "name": "negative_delete_non_existing_product",
+      "product_title": "Product that should not exist - 9999999",
+      "expected_count": 0
+    },
+    {
+      "name": "negative_cancel_delete_keeps_product",
+      "product_title_prefix": "Delete Cancel Target Product",
+      "description": "created for delete cancel automation",
+      "purchase_price": "540",
+      "rent_price": "54",
+      "category": "Outdoor",
+      "rent_duration_type": "Daily",
+      "use_unique_title": true
+    }
+  ]
+}
 

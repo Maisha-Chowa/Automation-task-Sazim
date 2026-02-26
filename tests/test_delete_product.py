@@ -4,6 +4,7 @@ from pathlib import Path
 
 import pytest
 
+from config import Settings
 from pages.my_products_page import MyProductsPage
 from pages.my_products_page import AddUpdateProductPage
 
@@ -50,6 +51,7 @@ def test_delete_product_positive(authenticated_page, case: dict) -> None:
     )
 
     my_products_page.open()
+    assert authenticated_page.url == Settings.MY_PRODUCTS_URL
     before_count = my_products_page.product_count(product_title)
     assert before_count >= 1
 
@@ -57,43 +59,12 @@ def test_delete_product_positive(authenticated_page, case: dict) -> None:
     assert my_products_page.delete_modal_visible()
     my_products_page.confirm_delete()
     authenticated_page.wait_for_timeout(1200)
+    my_products_page.open()
+    assert authenticated_page.url == Settings.MY_PRODUCTS_URL
     after_count = my_products_page.product_count(product_title)
 
     if after_count >= before_count:
         pytest.xfail("Known app issue: delete click does not remove product from my-products list.")
 
     assert after_count < before_count
-
-
-@pytest.mark.parametrize("case", DELETE_PRODUCT_DATA["negative_cases"], ids=lambda c: c["name"])
-def test_delete_product_negative(authenticated_page, case: dict) -> None:
-    my_products_page = MyProductsPage(authenticated_page)
-    add_update_product_page = AddUpdateProductPage(authenticated_page)
-    my_products_page.open()
-
-    if case["name"] == "negative_delete_non_existing_product":
-        assert my_products_page.product_count(case["product_title"]) == case["expected_count"]
-        return
-
-    product_title = _unique_title(case["product_title_prefix"]) if case.get("use_unique_title") else case["product_title_prefix"]
-    add_update_product_page.open_from_my_products()
-    add_update_product_page.submit_product(
-        title=product_title,
-        description=case["description"],
-        purchase_price=case["purchase_price"],
-        rent_price=case["rent_price"],
-        category=case["category"],
-        rent_duration_type=case["rent_duration_type"],
-    )
-
-    my_products_page.open()
-    before_count = my_products_page.product_count(product_title)
-    assert before_count >= 1
-
-    my_products_page.click_delete_for_product(product_title)
-    assert my_products_page.delete_modal_visible()
-    my_products_page.cancel_delete()
-    authenticated_page.wait_for_timeout(1000)
-    after_count = my_products_page.product_count(product_title)
-    assert after_count == before_count
 

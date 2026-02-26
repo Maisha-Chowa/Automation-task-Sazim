@@ -134,7 +134,10 @@ class AddUpdateProductPage:
     def open_existing_product_for_update(self, product_title_contains: str) -> None:
         if "my-products" not in self.page.url:
             self.page.goto(Settings.MY_PRODUCTS_URL, wait_until="domcontentloaded")
-        self.page.get_by_text(product_title_contains).first.click()
+        product_title = self.page.locator("div.sc-hKwDye", has_text=product_title_contains).first
+        if product_title.count() == 0:
+            raise ValueError(f"Product not found for update: {product_title_contains}")
+        product_title.click()
         self.page.wait_for_url("**/edit-product/**")
 
     def text_visible(self, text: str) -> bool:

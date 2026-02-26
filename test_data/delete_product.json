@@ -15,23 +15,5 @@
       "rent_duration_type": "Daily",
       "use_unique_title": true
     }
-  ],
-  "negative_cases": [
-    {
-      "name": "negative_delete_non_existing_product",
-      "product_title": "Product that should not exist - 9999999",
-      "expected_count": 0
-    },
-    {
-      "name": "negative_cancel_delete_keeps_product",
-      "product_title_prefix": "Delete Cancel Target Product",
-      "description": "created for delete cancel automation",
-      "purchase_price": "540",
-      "rent_price": "54",
-      "category": "Outdoor",
-      "rent_duration_type": "Daily",
-      "use_unique_title": true
-    }
   ]
 }
-

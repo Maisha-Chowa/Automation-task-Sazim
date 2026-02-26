@@ -5,7 +5,7 @@ from pathlib import Path
 import pytest
 
 from config import Settings
-from pages.my_products_page import AddUpdateProductPage
+from pages.my_products_page import AddUpdateProductPage, MyProductsPage
 
 
 def _load_add_product_data() -> dict:
@@ -18,6 +18,26 @@ def _unique_title(base_title: str) -> str:
 
 
 ADD_PRODUCT_DATA = _load_add_product_data()
+
+
+def _ensure_product_for_update(authenticated_page, product_title: str) -> None:
+    add_product_page = AddUpdateProductPage(authenticated_page)
+    my_products_page = MyProductsPage(authenticated_page)
+    add_product_page.go_to_my_products()
+    if my_products_page.product_count(product_title) > 0:
+        return
+
+    add_product_page.open_from_my_products()
+    add_product_page.submit_product(
+        title=product_title,
+        description="Seed product for update test flow",
+        purchase_price="500",
+        rent_price="50",
+        category="Outdoor",
+        rent_duration_type="Daily",
+    )
+    add_product_page.go_to_my_products()
+    assert my_products_page.product_count(product_title) > 0
 
 
 @pytest.mark.parametrize("case", ADD_PRODUCT_DATA["ui_validations"], ids=lambda c: c["name"])
@@ -85,6 +105,7 @@ def test_add_product_negative(authenticated_page, case: dict) -> None:
 @pytest.mark.parametrize("case", ADD_PRODUCT_DATA["update_ui_validations"], ids=lambda c: c["name"])
 def test_update_product_ui_validation(authenticated_page, case: dict) -> None:
     add_product_page = AddUpdateProductPage(authenticated_page)
+    _ensure_product_for_update(authenticated_page, case["search_title_from_add_positive"])
     add_product_page.go_to_my_products()
     add_product_page.open_existing_product_for_update(case["search_title_from_add_positive"])
 
@@ -102,6 +123,7 @@ def test_update_product_ui_validation(authenticated_page, case: dict) -> None:
 @pytest.mark.parametrize("case", ADD_PRODUCT_DATA["update_positive_cases"], ids=lambda c: c["name"])
 def test_update_product_positive(authenticated_page, case: dict) -> None:
     add_product_page = AddUpdateProductPage(authenticated_page)
+    _ensure_product_for_update(authenticated_page, case["search_title_from_add_positive"])
     add_product_page.go_to_my_products()
     add_product_page.open_existing_product_for_update(case["search_title_from_add_positive"])
 
@@ -125,6 +147,7 @@ def test_update_product_positive(authenticated_page, case: dict) -> None:
 @pytest.mark.parametrize("case", ADD_PRODUCT_DATA["update_negative_cases"], ids=lambda c: c["name"])
 def test_update_product_negative(authenticated_page, case: dict) -> None:
     add_product_page = AddUpdateProductPage(authenticated_page)
+    _ensure_product_for_update(authenticated_page, case["search_title_from_add_positive"])
     add_product_page.go_to_my_products()
     add_product_page.open_existing_product_for_update(case["search_title_from_add_positive"])
 

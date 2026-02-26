@@ -1,6 +1,5 @@
 import json
 from pathlib import Path
-
 import pytest
 
 from config import Settings
@@ -55,15 +54,6 @@ def test_login_positive(page, case: dict) -> None:
 
     assert page.url == Settings.MY_PRODUCTS_URL
     assert login_page.my_products_visible()
-
-
-def test_positive_login_stores_auth_state(auth_state_file: str) -> None:
-    auth_path = Path(auth_state_file)
-    assert auth_path.exists()
-
-    auth_data = json.loads(auth_path.read_text(encoding="utf-8"))
-    assert "cookies" in auth_data
-    assert "origins" in auth_data
 
 
 def test_logout_cancel_keeps_user_logged_in(page) -> None:

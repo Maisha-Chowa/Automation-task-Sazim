@@ -7,9 +7,9 @@ Data-driven UI automation framework for a small e-commerce platform using Playwr
 - `pages/` -> POM classes and UI actions
 - `tests/` -> feature test suites
 - `test_data/` -> JSON data sources for data-driven tests
-- `reports/` -> runtime outputs (`junit.xml`, `allure-results`, auth state)
+- `reports/` -> runtime outputs (`allure-results`, `allure-report`)
 - `config.py` -> global settings loaded from `.env`
-- `run_all_tests.py` -> one-command runner for full suite or custom pytest args
+- `run_all_tests.py` -> one-command runner for full suite
 
 ## Prerequisites
 
@@ -54,30 +54,10 @@ DEFAULT_TIMEOUT_MS=15000
 HEADLESS=false
 ```
 
-## Running Tests
-
-Run all tests with new runner:
+## Run All Tests
 
 ```bash
 python run_all_tests.py
-```
-
-Run all tests with custom pytest args:
-
-```bash
-python run_all_tests.py -k login -q
-```
-
-Run all tests directly with pytest:
-
-```bash
-pytest tests -q
-```
-
-Run a single file:
-
-```bash
-pytest tests/test_delete_product.py -q
 ```
 
 ## Allure Report Generation
@@ -133,11 +113,24 @@ allure open reports/allure-report
   - Title/category/buy/rent filter combinations
   - Clear/reset handling between test scenarios
 
-- **Buy / Rent Product**
-  - Sold/available/owned behavior checks
-  - Buy confirm/cancel flows
-  - Rent date-range validations
-  - Known app issues tracked with `xfail`
+- **Buy / Rent Product (Business Logic Covered)**
+  - Status tags handled in tests: `Available`, `Sold`, `Rented`, `You Own the product`.
+  - Visibility rules:
+    - If product is `Available` -> `Buy` and `Rent` buttons should be visible.
+    - If product is `Sold` -> `Buy` and `Rent` buttons should not be visible.
+    - If product is `Rented` -> `Buy` and `Rent` buttons should not be visible.
+    - If product is `You Own the product` -> `Buy` and `Rent` buttons should not be visible.
+    - If product is both owned and available -> `Buy` and `Rent` buttons should not be visible.
+  - Buy flow:
+    - `Buy` opens confirmation modal.
+    - Confirm buy moves status to sold and hides actions.
+    - Cancel buy keeps status available and actions visible.
+  - Rent flow:
+    - `Rent` opens modal with start/end date and `Book rent`/`Cancel`.
+    - Valid date ranges are covered including max 1 week case.
+    - Invalid inputs covered: past date, same start/end, end before start, empty dates, duration > 1 week.
+    - Cancel rent keeps status available.
+  - Known application issues are tracked as `xfail` where business rule behavior is not enforced by the app.
 
 ## Allure Report Screenshots
 

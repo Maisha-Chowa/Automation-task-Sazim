@@ -134,9 +134,9 @@ allure open reports/allure-report
 
 ## Allure Report Screenshots
 
-![Allure Overview](docs/screenshots/allure-overview.png)
-![Allure Suites](docs/screenshots/allure-suites.png)
-![Allure Test Details](docs/screenshots/allure-test-details.png)
+![Allure Overview](https://raw.githubusercontent.com/Maisha-Chowa/Automation-task-Sazim/main/docs/screenshots/allure-overview.png)
+![Allure Suites](https://raw.githubusercontent.com/Maisha-Chowa/Automation-task-Sazim/main/docs/screenshots/allure-suites.png)
+![Allure Test Details](https://raw.githubusercontent.com/Maisha-Chowa/Automation-task-Sazim/main/docs/screenshots/allure-test-details.png)
 
 ## How To Capture Allure Report Screenshots
 

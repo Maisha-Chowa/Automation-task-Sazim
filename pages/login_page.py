@@ -1,9 +1,10 @@
 from playwright.sync_api import Page
 
 from config import Settings
+from pages.base_page import BasePage
 
 
-class LoginPage:
+class LoginPage(BasePage):
     EMAIL_INPUT = "input[name='email']"
     PASSWORD_INPUT = "input[name='password']"
     SIGN_IN_BUTTON = "button:has-text('Sign In')"
@@ -16,10 +17,6 @@ class LoginPage:
     LOGOUT_MODAL_TEXT = "Are you sure you want to log out?"
     LOGOUT_CANCEL_BUTTON_TEXT = "Cancel"
     LOGOUT_CONFIRM_BUTTON_TEXT = "Yes I am sure!"
-
-    def __init__(self, page: Page) -> None:
-        self.page = page
-        self.page.set_default_timeout(Settings.DEFAULT_TIMEOUT_MS)
 
     def open(self) -> None:
         self.page.goto(Settings.LOGIN_URL, wait_until="domcontentloaded")
@@ -36,28 +33,16 @@ class LoginPage:
         return "teebay-buggy" in self.page.url
 
     def invalid_credentials_message_visible(self) -> bool:
-        try:
-            self.page.get_by_text(self.INVALID_CREDENTIALS_TEXT).first.wait_for(state="visible")
-            return True
-        except Exception:
-            return False
+        return self.wait_for_text_visible(self.INVALID_CREDENTIALS_TEXT)
 
     def password_required_message_count(self) -> int:
         return self.page.get_by_text(self.REQUIRED_PASSWORD_TEXT).count()
 
     def text_visible(self, text: str) -> bool:
-        try:
-            self.page.get_by_text(text).first.wait_for(state="visible")
-            return True
-        except Exception:
-            return False
+        return self.wait_for_text_visible(text)
 
     def my_products_visible(self) -> bool:
-        try:
-            self.page.get_by_text(self.MY_PRODUCTS_TEXT).first.wait_for(state="visible")
-            return True
-        except Exception:
-            return False
+        return self.wait_for_text_visible(self.MY_PRODUCTS_TEXT)
 
     def click_logout(self) -> None:
         self.page.get_by_text(self.LOGOUT_NAV_TEXT).first.click()

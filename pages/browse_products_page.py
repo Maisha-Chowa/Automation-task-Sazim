@@ -1,9 +1,8 @@
-from playwright.sync_api import Page
-
 from config import Settings
+from pages.base_page import BasePage
 
 
-class BrowseProductsPage:
+class BrowseProductsPage(BasePage):
     BROWSE_PRODUCTS_NAV_TEXT = "Browse Products"
 
     TITLE_INPUT = "input[name='title']"
@@ -28,10 +27,6 @@ class BrowseProductsPage:
     LOAD_MORE_BUTTON_TEXT = "Load More"
 
     PRODUCT_TITLE_TEXT = "div.sc-hKwDye"
-
-    def __init__(self, page: Page) -> None:
-        self.page = page
-        self.page.set_default_timeout(Settings.DEFAULT_TIMEOUT_MS)
 
     def open_from_my_products(self) -> None:
         self.page.get_by_text(self.BROWSE_PRODUCTS_NAV_TEXT).first.click()
@@ -88,5 +83,5 @@ class BrowseProductsPage:
         return len(self.product_titles())
 
     def text_visible(self, text: str) -> bool:
-        return text in self.page.locator("body").inner_text()
+        return self.body_contains(text)
 

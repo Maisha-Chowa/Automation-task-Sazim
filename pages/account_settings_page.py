@@ -1,9 +1,8 @@
-from playwright.sync_api import Page
-
 from config import Settings
+from pages.base_page import BasePage
 
 
-class AccountSettingsPage:
+class AccountSettingsPage(BasePage):
     ACCOUNT_SETTINGS_NAV_TEXT = "Account Settings"
     PAGE_HEADING_TEXT = "ACCOUNT SETTINGS"
 
@@ -16,10 +15,6 @@ class AccountSettingsPage:
 
     UPDATE_SUCCESS_TEXT = "User updated!"
     MY_PRODUCTS_NAV_TEXT = "My Products"
-
-    def __init__(self, page: Page) -> None:
-        self.page = page
-        self.page.set_default_timeout(Settings.DEFAULT_TIMEOUT_MS)
 
     def open_from_my_products(self) -> None:
         # Direct /my-products navigation is not stable on GitHub Pages; use current authenticated app page.
@@ -53,10 +48,10 @@ class AccountSettingsPage:
         self.page.wait_for_url(Settings.MY_PRODUCTS_URL)
 
     def visible_text(self) -> str:
-        return self.page.locator("body").inner_text()
+        return self.body_text()
 
     def text_visible(self, text: str) -> bool:
-        return text in self.visible_text()
+        return self.body_contains(text)
 
     def current_form_values(self) -> dict:
         return {

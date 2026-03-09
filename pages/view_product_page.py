@@ -1,12 +1,11 @@
 import re
 from datetime import date, timedelta
 
-from playwright.sync_api import Page
-
 from config import Settings
+from pages.base_page import BasePage
 
 
-class ViewProductPage:
+class ViewProductPage(BasePage):
     BROWSE_PRODUCTS_NAV_TEXT = "Browse Products"
     CLEAR_BUTTON_TEXT = "Clear"
     FILTER_BUTTON_TEXT = "Filter"
@@ -26,10 +25,6 @@ class ViewProductPage:
     END_DATE_INPUT = "input[name='end_date']"
 
     PRODUCT_TITLE_TEXT = "div.sc-hKwDye"
-
-    def __init__(self, page: Page) -> None:
-        self.page = page
-        self.page.set_default_timeout(Settings.DEFAULT_TIMEOUT_MS)
 
     def open_browse_products(self) -> None:
         self.page.get_by_text(self.BROWSE_PRODUCTS_NAV_TEXT).first.click()
@@ -75,14 +70,14 @@ class ViewProductPage:
         raise RuntimeError("No available non-owned product found with Buy/Rent actions.")
 
     def status_text(self) -> str:
-        body = self.page.locator("body").inner_text()
+        body = self.body_text()
         match = re.search(r"Status:\s*([A-Za-z]+)", body, flags=re.IGNORECASE)
         if not match:
             return ""
         return match.group(1).strip()
 
     def is_owned_by_logged_user(self) -> bool:
-        body = self.page.locator("body").inner_text().lower()
+        body = self.body_text().lower()
         return "you own this product" in body or "you own the product" in body
 
     def buy_button_visible(self) -> bool:

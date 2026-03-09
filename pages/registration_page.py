@@ -1,9 +1,8 @@
-from playwright.sync_api import Page
-
 from config import Settings
+from pages.base_page import BasePage
 
 
-class RegistrationPage:
+class RegistrationPage(BasePage):
     FIRST_NAME_INPUT = "input[name='firstName']"
     LAST_NAME_INPUT = "input[name='lastName']"
     ADDRESS_INPUT = "input[name='address']"
@@ -22,10 +21,6 @@ class RegistrationPage:
     ADDRESS_REQUIRED_TEXT = "Address is required"
     INTERNAL_ERROR_TEXT = "Internal error occurred. Please check the server!"
     PAGE_HEADING_TEXT = "REGISTRATION"
-
-    def __init__(self, page: Page) -> None:
-        self.page = page
-        self.page.set_default_timeout(Settings.DEFAULT_TIMEOUT_MS)
 
     def open_from_login(self) -> None:
         self.page.goto(Settings.LOGIN_URL, wait_until="domcontentloaded")
@@ -55,11 +50,7 @@ class RegistrationPage:
         return "/register" in self.page.url
 
     def text_visible(self, text: str) -> bool:
-        try:
-            self.page.get_by_text(text).first.wait_for(state="visible")
-            return True
-        except Exception:
-            return False
+        return self.wait_for_text_visible(text)
 
     def any_text_visible(self, texts: list[str]) -> bool:
         return any(self.text_visible(text) for text in texts)

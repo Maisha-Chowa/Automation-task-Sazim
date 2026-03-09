@@ -1,9 +1,8 @@
-from playwright.sync_api import Page
-
 from config import Settings
+from pages.base_page import BasePage
 
 
-class MyProductsPage:
+class MyProductsPage(BasePage):
     PAGE_HEADING_TEXT = "My Products"
     MY_PRODUCTS_NAV_TEXT = "My Products"
     PRODUCT_TITLE_TEXT = "div.sc-hKwDye"
@@ -14,10 +13,6 @@ class MyProductsPage:
     DELETE_MODAL_TEXT = "Are you sure you want to delete this product?"
     DELETE_CONFIRM_BUTTON_TEXT = "Yes, delete"
     DELETE_CANCEL_BUTTON_TEXT = "Cancel"
-
-    def __init__(self, page: Page) -> None:
-        self.page = page
-        self.page.set_default_timeout(Settings.DEFAULT_TIMEOUT_MS)
 
     def open(self) -> None:
         # Avoid direct deep-link loads on GitHub Pages; prefer in-app navbar navigation.
@@ -31,7 +26,7 @@ class MyProductsPage:
         return "my-products" in self.page.url
 
     def text_visible(self, text: str) -> bool:
-        return text in self.page.locator("body").inner_text()
+        return self.body_contains(text)
 
     def product_count(self, product_title: str) -> int:
         return self.page.locator(self.PRODUCT_TITLE_TEXT, has_text=product_title).count()
@@ -53,7 +48,7 @@ class MyProductsPage:
         return self.page.get_by_text(self.ADD_PRODUCT_NAV_TEXT).first.is_visible()
 
 
-class AddUpdateProductPage:
+class AddUpdateProductPage(BasePage):
     MY_PRODUCTS_NAV_TEXT = "My Products"
     ADD_PRODUCT_NAV_TEXT = "Add Product"
     PAGE_HEADING_TEXT = "ADD PRODUCT"
@@ -69,10 +64,6 @@ class AddUpdateProductPage:
     SUBMIT_BUTTON = "button:has-text('Add Product')"
 
     NEED_OPTION_TEXT = "Need to select an option"
-
-    def __init__(self, page: Page) -> None:
-        self.page = page
-        self.page.set_default_timeout(Settings.DEFAULT_TIMEOUT_MS)
 
     def open_from_my_products(self) -> None:
         if "my-products" not in self.page.url and self.page.get_by_text(self.MY_PRODUCTS_NAV_TEXT).count() > 0:
@@ -141,7 +132,7 @@ class AddUpdateProductPage:
         self.page.wait_for_url("**/edit-product/**")
 
     def text_visible(self, text: str) -> bool:
-        return text in self.page.locator("body").inner_text()
+        return self.body_contains(text)
 
     def product_visible_on_my_products(self, product_title: str) -> bool:
         return self.text_visible(product_title)
